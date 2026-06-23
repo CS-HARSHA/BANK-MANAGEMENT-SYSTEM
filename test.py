@@ -54,3 +54,25 @@ from models.account import BankAccount
 s2 = SavingsAccount.from_dict(data)
 print(s2)                           # should match s exactly
 print(s2.balance)                   # should match s.balance
+
+
+from models.customer import Customer
+from models.account import SavingsAccount, CurrentAccount
+
+c = Customer("Arjun", "arjun@gmail.com", "9999999999")
+
+s = SavingsAccount("Arjun", balance=5000)
+s.deposit(2000, "Salary")
+c.add_account(s)
+
+curr = CurrentAccount("Arjun", balance=3000)
+c.add_account(curr)
+
+print(c)
+print(c.get_accounts())
+print(c.get_account(s.account_number))
+
+data = c.to_dict()
+c2 = Customer.from_dict(data)
+print(c2)
+print(c2.get_account(s.account_number).balance)

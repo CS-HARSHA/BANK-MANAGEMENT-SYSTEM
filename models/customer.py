@@ -4,7 +4,7 @@ from models.account import BankAccount , SavingsAccount , CurrentAccount
 
 class Customer:
 
-    def __inti__(self, name:str ,email:str ,phone:str ,customer_id:str):
+    def __init__(self, name:str ,email:str ,phone:str ,customer_id:str =None):
         self.name= name
         self.email = email
         self.phone = phone
@@ -12,7 +12,7 @@ class Customer:
         self.accounts: List[BankAccount] = []
 
     def add_account(self, account: BankAccount):
-        self.accounts.append(BankAccount)
+        self.accounts.append(account)
 
     def get_accounts(self) -> List[BankAccount]:
         return self.accounts
