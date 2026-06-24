@@ -103,6 +103,19 @@ class SavingsAccount(BankAccount):
         data["minimum_balance"] = self.minimum_balance
         data["interest_rate"] = self.interest_rate
         return data
+    
+    @classmethod
+    def from_dict(cls, data: Dict):
+        account = cls(
+         owner=data["owner"],
+         account_number=data["account_number"],
+         balance=data["balance"],
+         minimum_balance=data.get("minimum_balance", 1000.0),
+         interest_rate=data.get("interest_rate", 4.0)
+        )
+        if "transactions" in data:
+          account.transactions = [Transaction.from_dict(t) for t in data["transactions"]]
+        return account
 
 
 class CurrentAccount(BankAccount):
@@ -126,5 +139,15 @@ class CurrentAccount(BankAccount):
         data["overdraft_limit"] = self.overdraft_limit
         return data
 
-
+    @classmethod
+    def from_dict(cls, data: Dict):
+       account = cls(
+         owner=data["owner"],
+         account_number=data["account_number"],
+         balance=data["balance"],
+         overdraft_limit=data.get("overdraft_limit", 10000.0)
+        )
+       if "transactions" in data:
+         account.transactions = [Transaction.from_dict(t) for t in data["transactions"]]
+       return account
 
