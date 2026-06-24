@@ -76,3 +76,50 @@ data = c.to_dict()
 c2 = Customer.from_dict(data)
 print(c2)
 print(c2.get_account(s.account_number).balance)
+
+from bank.bank import Bank
+
+b = Bank("PyBank")
+
+# create customers
+c1 = b.create_customer("Arjun", "arjun@gmail.com", "9999999999")
+c2 = b.create_customer("Priya", "priya@gmail.com", "8888888888")
+
+# create accounts
+acc1 = b.create_account(c1.customer_id, "savings", 5000)
+acc2 = b.create_account(c2.customer_id, "current", 3000)
+
+# deposit and withdraw
+acc1.deposit(2000, "Salary")
+acc2.deposit(1000, "Opening")
+
+# transfer
+b.transfer(acc1.account_number, acc2.account_number, 1000, "Rent payment")
+
+# list all
+b.list_all_accounts()
+
+# find
+print(b.find_customer(c1.customer_id))
+print(b.find_account(acc1.account_number))
+
+# delete account
+b.delete_account(acc2.account_number)
+b.list_all_accounts()
+
+# to_dict round trip
+data = b.to_dict()
+b2 = Bank.from_dict(data)
+print(b2)
+print(b2.find_account(acc1.account_number).balance)
+
+# error handling
+try:
+    b.find_account("ACC-00000")
+except ValueError as e:
+    print(f"Caught: {e}")
+
+try:
+    b.transfer(acc1.account_number, acc2.account_number, 500)
+except ValueError as e:
+    print(f"Caught: {e}")
