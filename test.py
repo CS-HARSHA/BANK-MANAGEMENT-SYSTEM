@@ -123,3 +123,18 @@ try:
     b.transfer(acc1.account_number, acc2.account_number, 500)
 except ValueError as e:
     print(f"Caught: {e}")
+
+from bank.bank import Bank
+from utils.file_handler import save_data, load_data
+
+b = Bank("PyBank")
+c1 = b.create_customer("Arjun", "arjun@gmail.com", "9999999999")
+acc1 = b.create_account(c1.customer_id, "savings", 5000)
+acc1.deposit(2000, "Salary")
+
+save_data(b)
+
+b2 = load_data()
+print(b2)
+print(b2.find_account(acc1.account_number).balance)
+b2.list_all_accounts()
